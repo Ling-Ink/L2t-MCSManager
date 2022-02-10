@@ -1,0 +1,6 @@
+name: L2T-MCSManager
+version: '${project.version}'
+main: org.crystal.l2tmcsmanager.L2TMCSManager
+api-version: 1.18
+depend:
+  - Link2telegram
