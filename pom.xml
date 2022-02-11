@@ -27,22 +27,6 @@
                     <target>${java.version}</target>
                 </configuration>
             </plugin>
-            <!--plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-shade-plugin</artifactId>
-                <version>3.2.4</version>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>shade</goal>
-                        </goals>
-                        <configuration>
-                            <createDependencyReducedPom>false</createDependencyReducedPom>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin-->
         </plugins>
         <resources>
             <resource>
@@ -78,9 +62,9 @@
         <dependency>
             <groupId>org.crystal</groupId>
             <artifactId>link2telegram</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>1.0</version>
             <scope>system</scope>
-            <systemPath>${project.basedir}/link2telegram-1.0-SNAPSHOT.jar</systemPath>
+            <systemPath>${project.basedir}/link2telegram-1.0.jar</systemPath>
         </dependency>
     </dependencies>
 </project>
