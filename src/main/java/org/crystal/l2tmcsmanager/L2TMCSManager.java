@@ -5,7 +5,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.crystal.link2telegram.GetUpdateEvent;
+import org.crystal.link2telegram.Events.OnCommandEvent;
 import org.crystal.link2telegram.Link2telegram;
 import org.jetbrains.annotations.NotNull;
 
@@ -26,9 +26,9 @@ public class L2TMCSManager extends JavaPlugin implements Listener {
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
-    private void GetUpdateListener(GetUpdateEvent event){
-        if(Objects.equals(event.GetMessage(), "/restart")){
-            Link2telegram.L2tAPI().sendFormatedMsg("[Event]收到重启命令","Info");
+    private void GetUpdateListener(OnCommandEvent event){
+        if(Objects.equals(event.GetCommand()[0], "/restart")){
+            Link2telegram.L2tAPI().sendFormattedMsg("[Event]收到重启命令","Info");
             RestartServer();
         }
     }
@@ -46,14 +46,14 @@ public class L2TMCSManager extends JavaPlugin implements Listener {
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                Link2telegram.L2tAPI().sendFormatedMsg("服务器重启失败,错误原因:\n" + getExceptionType(e),"Warn");
+                Link2telegram.L2tAPI().sendFormattedMsg("服务器重启失败,错误原因:\n" + getExceptionType(e),"Warn");
             }
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response){
                 if (response.isSuccessful()) {
-                    Link2telegram.L2tAPI().sendFormatedMsg("服务器重启","Status");
+                    Link2telegram.L2tAPI().sendFormattedMsg("服务器重启","Status");
                 } else {
-                    Link2telegram.L2tAPI().sendFormatedMsg("服务器重启失败,错误原因:\n" + response.code(),"Warn");
+                    Link2telegram.L2tAPI().sendFormattedMsg("服务器重启失败,错误原因:\n" + response.code(),"Warn");
                 }
             }
         });
