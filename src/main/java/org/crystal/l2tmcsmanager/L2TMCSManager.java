@@ -28,12 +28,16 @@ public class L2TMCSManager extends JavaPlugin implements Listener {
     @EventHandler(priority = EventPriority.MONITOR)
     private void GetUpdateListener(OnCommandEvent event){
         if(Objects.equals(event.GetCommand()[0], "/restart")){
-            Link2telegram.L2tAPI().sendFormattedMsg("[Event]收到重启命令","Info");
-            RestartServer();
+            if(event.IsOwner()){
+                Link2telegram.L2tAPI().sendMsg(event.GetChatId(), "[Event]收到重启命令","");
+                RestartServer(event.GetChatId());
+            } else {
+                Link2telegram.L2tAPI().sendMsg(event.GetChatId(), "没有相应权限","Warn");
+            }
         }
     }
 
-    private void RestartServer(){
+    private void RestartServer(String ChatId){
         String Hostname = this.getConfig().getString("MCSManager.Hostname");
         String UUID = this.getConfig().getString("MCSManager.UUID");
         String REMOTE_UUID = this.getConfig().getString("MCSManager.RemoteUUID");
@@ -46,14 +50,14 @@ public class L2TMCSManager extends JavaPlugin implements Listener {
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                Link2telegram.L2tAPI().sendFormattedMsg("服务器重启失败,错误原因:\n" + getExceptionType(e),"Warn");
+                Link2telegram.L2tAPI().sendMsg(ChatId, "服务器重启失败,错误原因:\n" + getExceptionType(e),"Warn");
             }
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response){
                 if (response.isSuccessful()) {
-                    Link2telegram.L2tAPI().sendFormattedMsg("服务器重启","Status");
+                    Link2telegram.L2tAPI().sendMsg(ChatId, "服务器重启","Status");
                 } else {
-                    Link2telegram.L2tAPI().sendFormattedMsg("服务器重启失败,错误原因:\n" + response.code(),"Warn");
+                    Link2telegram.L2tAPI().sendMsg(ChatId, "服务器重启失败,错误原因:\n" + response.code(),"Warn");
                 }
             }
         });
